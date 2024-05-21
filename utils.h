@@ -13,7 +13,7 @@
 #include <errno.h>
 
 #define BUFLEN              4096
-#define LINE                1024
+#define LINE                128
 
 #define REGISTER            "/api/v1/tema/auth/register"
 #define LOGIN               "/api/v1/tema/auth/login"
@@ -41,17 +41,28 @@
         }                                                                      \
     } while (0)
 
-
+/*
+    Structure that holds the instance data.
+*/
 struct instance_data {
     char *cookie;
     char *token;
     int sockfd;
 };
 
+/*
+    Parses a string and returns the number of arguments.
+*/
 int whitespace_parse(char *buff, char **argv);
 
+/*
+    Initializes the instance data.
+*/
 void init_instance_data(struct instance_data *data);
 
+/*
+    Reads a command from stdin and executes it.
+*/
 int handle_command(struct instance_data *data, char *buffer);
 
 #endif

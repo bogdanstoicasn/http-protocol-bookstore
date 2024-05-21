@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "command.h"
+#include "cmd.h"
 
 // Function that parses a string and returns the number of arguments
 int whitespace_parse(char *buff, char **argv)
@@ -32,7 +32,7 @@ int handle_command(struct instance_data *data, char *buffer) {
 	argc = whitespace_parse(buffer, argv);
 
 	if (argc > 1) {
-		printf("Invalid command.\n");
+		std::cout << "Invalid command\n";
 		return 0;
 	}
 	if (!strcmp(argv[0], "exit")) {
@@ -42,41 +42,33 @@ int handle_command(struct instance_data *data, char *buffer) {
 		authentification(data);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "login")) {
 		login(data->sockfd, &data->cookie);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "enter_library")) {
 		library(data);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "get_books")) {
 		get_books(data);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "get_book")) {
 		get_book(data);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "add_book")) {
 		add_book(data);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "delete_book")) {
 		delete_book(data);
 		return 0;
 	}
-
 	if (!strcmp(argv[0], "logout")) {
 		logout(data);
 		return 0;
 	}
-
 	return 0;
 }

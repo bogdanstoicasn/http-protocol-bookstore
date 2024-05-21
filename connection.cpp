@@ -5,15 +5,15 @@
 using json = nlohmann::json;
 
 // open a connection to a server
-int open_connection(const char *host_ip, int port, int ip_type, int socket_type, int flag) {
+int open_connection(const char *hostip, int port, int typeip, int typesocket, int flag) {
     struct sockaddr_in serv_addr;
-    int sockfd = socket(ip_type, socket_type, flag);
+    int sockfd = socket(typeip, typesocket, flag);
     DIE(sockfd < 0, "socket() failed");
 
     memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = ip_type;
+    serv_addr.sin_family = typeip;
     serv_addr.sin_port = htons(port);
-    inet_aton(host_ip, &serv_addr.sin_addr);
+    inet_aton(hostip, &serv_addr.sin_addr);
 
     /* connect the socket */
     int rc = connect(sockfd, (struct sockaddr*) &serv_addr, sizeof(serv_addr));
@@ -24,19 +24,19 @@ int open_connection(const char *host_ip, int port, int ip_type, int socket_type,
 
 // send a message to the server
 void send_to_server(int sockfd, char *message) {
-    int bytes, sent = 0;
-    int total = strlen(message);
+    int err, sentbytes = 0;
+    int totalbytes = strlen(message);
 
     do {
-        bytes = write(sockfd, message + sent, total - sent);
-        DIE(bytes < 0, "write() failed");
+        err = write(sockfd, message + sentbytes, totalbytes - sentbytes);
+        DIE(err < 0, "write() failed");
 
-        if (bytes == 0) {
+        if (err == 0) {
             break;
         }
 
-        sent += bytes;
-    } while (sent < total);
+        sentbytes += err;
+    } while (sentbytes < totalbytes);
 }
 
 // case-insensitive string search
@@ -89,6 +89,7 @@ char *receive_from_server(int sockfd) {
             }
         }
 
+        // check if the message is complete
         if (header_end >= 0 && (total_size - header_end) >= (size_t)content_length) {
             break;
         }

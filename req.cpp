@@ -1,8 +1,7 @@
 #include "utils.h"
-
 #include "req.h"
 
-char *compute_get_request(const char *host, const char *url, char *cookies, char *token) {
+char *string_get_request(const char *host, const char *url, char *cookies, char *token) {
     char *message = (char *)calloc(BUFLEN, sizeof(char));
     DIE(!message, "calloc() failed");
 
@@ -25,7 +24,7 @@ char *compute_get_request(const char *host, const char *url, char *cookies, char
     return message;
 }
 
-char *compute_post_request(const char *host, const char *url,
+char *string_post_request(const char *host, const char *url,
                            const char *content_type, const char *body_data,
                            char *cookies, char *token) {
     char *message = (char *)calloc(BUFLEN, sizeof(char));
@@ -60,7 +59,7 @@ char *compute_post_request(const char *host, const char *url,
     return message;
 }
 
-char *compute_delete_request(const char *host, const char *url,
+char *string_delete_request(const char *host, const char *url,
 						  	 char *cookies, char *token) {
 	char *message = (char *)calloc(BUFLEN, sizeof(char));
     DIE(!message, "calloc() failed");

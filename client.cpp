@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "connection.h"
 #include "req.h"
-#include "command.h"
+#include "cmd.h"
 
 int main() {
     char buffer[LINE];
@@ -24,5 +24,6 @@ int main() {
         free(data.cookie);
     if (data.token != NULL)
         free(data.token);
+
     return 0;
 }
